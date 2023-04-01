@@ -67,30 +67,32 @@ cls
 if ( 1 -eq $OPStart )
 {
     Write-Output "------------Automated installation of all the tools-----------"
+    Write-Output "Press ENTER and follow the instructions of each installer..."
+    pause
     Write-Output "------------Installing Chocolatey-----------"
     Invoke-Expression $chocolatey
-    pause
+    #pause
     Write-Output "------------Installing PowerShell Core-----------"
     Invoke-Expression $pscore
     Write-Output "FINISHED!"
-    pause
+    #pause
     Write-Output "------------Installing GIT-----------"
     Invoke-Expression $git
     Write-Output "FINISHED!"
-    pause
+    #pause
     Write-Output "------------Installing Visual Studio Code-----------"
     Invoke-Expression $vscode
     Write-Output "FINISHED!"
-    pause
+    #pause
     Write-Output "------------Installing Bicep-----------"
     Invoke-Expression $bicep
     Write-Output "FINISHED!"
-    pause
+    #pause
     Write-Output "------------Installing Azure AZ Powershell module-----------"
     Write-Output "BE PATIENT, THIS WILL TAKE A TIME..."
     Invoke-Expression $azureps
     Write-Output "FINISHED!"
-    pause
+    #pause
     #restart powershell
     Write-Output "UPDATING PATH WITH NEW PROGRAMS INSTALLED..."
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
@@ -98,7 +100,7 @@ if ( 1 -eq $OPStart )
     Write-Output "------------Installing Visual Studio Code Extensions-----------"
     Invoke-Expression $vscodext
     Write-Output "FINISHED!"
-    pause
+    #pause
     "------------Configuring GIT-----------"
     Write-Output "This option will setup your Name and Email in the GIT configuration"
     Write-Output "CAUTION: If you make a mistake with the following information, run this option in the manual installation menu to correct it..."

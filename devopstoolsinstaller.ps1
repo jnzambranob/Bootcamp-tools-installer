@@ -25,7 +25,7 @@ Function CheckAdmin()
     }
 } 
 #Check Script is running with Elevated Privileges
-Check-Admin
+CheckAdmin
 
 #Declare Installing commands
 
@@ -34,9 +34,6 @@ $chocolatey = "Set-ExecutionPolicy Bypass -Scope Process -Force;
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
 $pscore = "choco install powershell-core"
 $git = "choco install git"
-$gitconf = "git config --global user.name $name
-git config --global user.email $email
-git config --global core.longpaths true"
 $vscode = "choco install vscode"
 $vscodext = "code --install-extension ms-vscode.powershell
 code --install-extension ms-azure-devops.azure-pipelines
@@ -46,6 +43,7 @@ code --install-extension ms-vscode.azure-account
 code --install-extension ms-azuretools.vscode-bicep"
 $azureps = "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force"
 $bicep = 'choco install bicep'
+
 
 #End of installing commands
 
@@ -69,15 +67,47 @@ cls
 if ( 1 -eq $OPStart )
 {
     Write-Output "------------Automated installation of all the tools-----------"
+    Write-Output "------------Installing Chocolatey-----------"
     Invoke-Expression $chocolatey
+    pause
+    Write-Output "------------Installing PowerShell Core-----------"
     Invoke-Expression $pscore
-    #Invoke-Expression $git
+    Write-Output "FINISHED!"
+    pause
+    Write-Output "------------Installing GIT-----------"
+    Invoke-Expression $git
+    Write-Output "FINISHED!"
+    pause
+    Write-Output "------------Installing Visual Studio Code-----------"
     Invoke-Expression $vscode
+    Write-Output "FINISHED!"
+    pause
+    Write-Output "------------Installing Bicep-----------"
     Invoke-Expression $bicep
-    #& $azureps
+    Write-Output "FINISHED!"
+    pause
+    Write-Output "------------Installing Azure AZ Powershell module-----------"
+    Write-Output "BE PATIENT, THIS WILL TAKE A TIME..."
+    Invoke-Expression $azureps
+    Write-Output "FINISHED!"
+    pause
     #restart powershell
+    Write-Output "UPDATING PATH WITH NEW PROGRAMS INSTALLED..."
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    Write-Output "FINISHED!"
+    Write-Output "------------Installing Visual Studio Code Extensions-----------"
     Invoke-Expression $vscodext
-    #& $gitconf
+    Write-Output "FINISHED!"
+    pause
+    "------------Configuring GIT-----------"
+    Write-Output "This option will setup your Name and Email in the GIT configuration"
+    Write-Output "CAUTION: If you make a mistake with the following information, run this option in the manual installation menu to correct it..."
+    $Name = Read-Host "Write your full name and press ENTER"
+    $Email = Read-Host "Write your Email and press ENTER"
+    $gitconf = "git config --global --replace user.name " + "`"$Name`"" + "
+    git config --global user.email " + "$Email" + "
+    git config --global core.longpaths true"
+    Invoke-Expression $gitconf
     Write-Output "------------INSTALLATION FINISHED!-----------"
     pause
     exit
@@ -151,6 +181,7 @@ if ( 2 -eq $OPStart )
     if ( 7 -eq $OPManual )
     {
         Write-Output "------------Installing Visual Studio Code Extensions-----------"
+        Write-Output "THIS OPTION WILL ONLY WORK IF YOU HAVE INSTALLED VSCODE BEFORE"
         #install the option
         Invoke-Expression $vscodext
         pause
@@ -159,10 +190,15 @@ if ( 2 -eq $OPStart )
     if ( 8 -eq $OPManual )
     {
         Write-Output "------------Configuring GIT-----------"
-        Write-Output "This option will setup your Name and Email in the GIT configuration"
+        Write-Output "THIS OPTION WILL ONLY WORK IF YOU HAVE INSTALLED GIT BEFORE"
+        Write-Output "This option will update your Name and Email in the GIT configuration"
+        Write-Output "CAUTION: If you make a mistake with the following information, run again this option to correct it..."
         $Name = Read-Host "Write your full name and press ENTER"
         $Email = Read-Host "Write your Email and press ENTER"
-        #configure git
+        $gitconf = "git config --global --replace user.name " + "`"$Name`"" + "
+        git config --global user.email " + "$Email" + "
+        git config --global core.longpaths true"
+        Invoke-Expression $gitconf
         pause
         exit
     }

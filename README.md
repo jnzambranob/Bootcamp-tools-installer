@@ -10,7 +10,7 @@ The user can choose the between the automatic installation (install everything a
 1. Clone this repo or download the script file: [Script Link](https://raw.githubusercontent.com/jnzambranob/Bootcamp-tools-installer/main/devopstoolsinstaller.ps1) (Right-click in the link and choose "Save link as")
 2. Allow the PowerShell script execution running this command in a PowerShell terminal:
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy ByPass -Scope CurrentUser
 ```
   >This is mandatory and has to be done because the script execution is disabled by default for security reasons.
 
